@@ -1,0 +1,18 @@
+version: '3.8' # Specify the version of the Docker Compose file
+
+services:
+  localstack:
+    image: localstack/localstack:1.4.0 # Use the Localstack image
+    ports:
+      - '4566:4566' # Main entry point for Localstack
+      - '4571:4571' # Optional, for additional services
+      - '8055:8080' # Web UI for Localstack (if needed)
+    environment:
+      - SERVICES=s3,dynamodb # List services to enable
+      - DEBUG=1 # Enable debug logs
+      - AWS_ACCESS_KEY_ID=test # Dummy credentials
+      - AWS_SECRET_ACCESS_KEY=test # Dummy credentials
+      - DEFAULT_REGION=eu-central-1 # Default region
+    volumes:
+      - ./tmp/localstack:/var/lib/localstack # Persist Localstack data
+      - /var/run/docker.sock:/var/run/docker.sock # Allow Localstack to use Docker
